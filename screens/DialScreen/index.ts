@@ -1,0 +1,1 @@
+export { DialScreen } from "./DialScreen";
