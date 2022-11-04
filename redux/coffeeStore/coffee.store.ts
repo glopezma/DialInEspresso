@@ -30,7 +30,7 @@ const initialState: CoffeeState = {
   coffeeList: [
     {
       id: uuid.v4(),
-      name: "Ethiopia Yirgacheffe",
+      name: "Gabe's favorite coffee",
       price: 15.99,
       region: "Yirgacheffe, Ethiopia",
       flavorNotes: ["Citrus", "Floral", "Chocolate"],

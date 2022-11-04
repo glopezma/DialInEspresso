@@ -1,6 +1,6 @@
 export enum navigationNames {
   Home = "Home",
   CreateCoffee = "CreateCoffee",
-  DialInCoffee = "DialInCoffee",
+  ShotsList = "ShotsList",
   CreateDial = "CreateDial",
 }

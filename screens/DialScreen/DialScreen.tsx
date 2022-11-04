@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { navigationNames } from "../../enums";
 import { setFavoriteDial } from "../../redux/coffeeStore/coffee.store";
-import { selectSelectedCoffee } from "../../redux/coffeeStore/cofffee.selector";
+import { selectSelectedCoffee } from "../../redux/coffeeStore/coffee.selector";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
 interface DialScreenProps {

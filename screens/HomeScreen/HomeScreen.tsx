@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Constants, navigationNames } from "../../enums";
 import { setSelectedCoffee } from "../../redux/coffeeStore/coffee.store";
-import { selectCoffeeList } from "../../redux/coffeeStore/cofffee.selector";
+import { selectCoffeeList } from "../../redux/coffeeStore/coffee.selector";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
 interface HomeScreenProps {
@@ -41,10 +41,13 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
               onPress={(_: GestureResponderEvent) => {
                 const { id: coffeeId } = data.item;
                 dispatch(setSelectedCoffee(coffeeId));
-                navigation.navigate(navigationNames.DialInCoffee);
+                navigation.navigate(navigationNames.ShotsList);
               }}
-              onLongPress={(_) => {
-                console.log("edit", data.item);
+              onLongPress={(_: GestureResponderEvent) => {
+                const { id: coffeeId } = data.item;
+                navigation.navigate(navigationNames.CreateCoffee, {
+                  coffeeId,
+                });
               }}
               trailing={(props) => <Icon name="chevron-right" {...props} />}
             />

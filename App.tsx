@@ -4,7 +4,7 @@ import React from "react";
 import { Button, GestureResponderEvent } from "react-native";
 import { Provider } from "react-redux";
 import { navigationNames } from "./enums";
-import { selectSelectedCoffee } from "./redux/coffeeStore/cofffee.selector";
+import { selectSelectedCoffee } from "./redux/coffeeStore/coffee.selector";
 import { useAppSelector } from "./redux/hooks";
 import { store } from "./redux/store";
 import { CreateCoffeeScreen } from "./screens/CreateCoffeeScreen";
@@ -19,7 +19,16 @@ const Root = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: "#3B6A92",
+          },
+          headerTitleStyle: {
+            color: "#fff",
+          },
+        }}
+      >
         <Stack.Screen
           name={navigationNames.Home}
           component={HomeScreen}
@@ -28,6 +37,7 @@ const Root = () => {
             headerRight: () => (
               <Button
                 title="Create Coffee"
+                color="#fff"
                 onPress={(_: GestureResponderEvent) => {
                   navigation.navigate(navigationNames.CreateCoffee);
                 }}
@@ -38,18 +48,37 @@ const Root = () => {
         <Stack.Screen
           name={navigationNames.CreateCoffee}
           component={CreateCoffeeScreen}
-          options={{
+          options={({ navigation }) => ({
             title: "Create Coffee",
-          }}
+            headerLeft: () => (
+              <Button
+                title="Cancel"
+                color="#fff"
+                onPress={(_: GestureResponderEvent) => {
+                  navigation.navigate(navigationNames.Home);
+                }}
+              />
+            ),
+          })}
         />
         <Stack.Screen
-          name={navigationNames.DialInCoffee}
+          name={navigationNames.ShotsList}
           component={DialScreen}
           options={({ navigation }) => ({
-            title: selectedCoffee?.name || "Dial In",
+            title: selectedCoffee?.name || "Shot",
+            headerLeft: () => (
+              <Button
+                title="Coffee List"
+                color="#fff"
+                onPress={(_: GestureResponderEvent) => {
+                  navigation.navigate(navigationNames.Home);
+                }}
+              />
+            ),
             headerRight: () => (
               <Button
-                title="Dial In"
+                title="New Shot"
+                color="#fff"
                 onPress={(_: GestureResponderEvent) => {
                   navigation.navigate(navigationNames.CreateDial);
                 }}
@@ -60,9 +89,18 @@ const Root = () => {
         <Stack.Screen
           name={navigationNames.CreateDial}
           component={CreateDialScreen}
-          options={{
+          options={({ navigation }) => ({
             title: "Create Dial",
-          }}
+            headerLeft: () => (
+              <Button
+                title="Cancel"
+                color="#fff"
+                onPress={(_: GestureResponderEvent) => {
+                  navigation.navigate(navigationNames.ShotsList);
+                }}
+              />
+            ),
+          })}
         />
       </Stack.Navigator>
     </NavigationContainer>
