@@ -11,18 +11,20 @@ import { CreateCoffeeScreen } from "./screens/CreateCoffeeScreen";
 import { CreateDialScreen } from "./screens/CreateDialScreen";
 import { DialScreen } from "./screens/DialScreen";
 import { HomeScreen } from "./screens/HomeScreen";
+import { globalStyles } from "./styles";
 
 const Stack = createNativeStackNavigator();
 
 const Root = () => {
   const selectedCoffee = useAppSelector(selectSelectedCoffee);
+  const { backgroundColor: primaryBGColor } = globalStyles.primary.normal;
 
   return (
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
           headerStyle: {
-            backgroundColor: "#3B6A92",
+            backgroundColor: primaryBGColor,
           },
           headerTitleStyle: {
             color: "#fff",
@@ -72,15 +74,6 @@ const Root = () => {
                 color="#fff"
                 onPress={(_: GestureResponderEvent) => {
                   navigation.navigate(navigationNames.Home);
-                }}
-              />
-            ),
-            headerRight: () => (
-              <Button
-                title="New Shot"
-                color="#fff"
-                onPress={(_: GestureResponderEvent) => {
-                  navigation.navigate(navigationNames.CreateDial);
                 }}
               />
             ),

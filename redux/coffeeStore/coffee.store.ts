@@ -58,7 +58,6 @@ const initialState: CoffeeState = {
       id: uuid.v4(),
       name: "Guatemala Antigua",
       price: 15.99,
-      region: "Antigua, Guatemala",
       flavorNotes: ["Citrus", "Floral", "Chocolate"],
     },
     {
@@ -66,7 +65,6 @@ const initialState: CoffeeState = {
       name: "Kenya AA",
       price: 15.99,
       region: "Kenya",
-      flavorNotes: ["Citrus", "Floral", "Chocolate"],
     },
     {
       id: uuid.v4(),

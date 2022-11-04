@@ -6,6 +6,7 @@ import { addCoffee, updateCoffee } from "../../redux/coffeeStore/coffee.store";
 import uuid from "react-native-uuid";
 import { navigationNames } from "../../enums";
 import { selectCoffeeById } from "../../redux/coffeeStore/coffee.selector";
+import { globalStyles } from "../../styles";
 
 interface CreateCoffeeProps {
   navigation: any;
@@ -65,6 +66,7 @@ export const CreateCoffeeScreen = ({
       <Button
         title={editMode ? "Update" : "Create"}
         uppercase={false}
+        style={{ backgroundColor: globalStyles.secondary.dark.backgroundColor }}
         onPress={(_: GestureResponderEvent) => {
           if (!name) {
             setSnackbarVisible(true);
@@ -106,7 +108,7 @@ export const CreateCoffeeScreen = ({
               <Button
                 variant="text"
                 title="Dismiss"
-                color="#BB86FC"
+                color={globalStyles.secondary.light.backgroundColor}
                 compact
                 onPress={() => setSnackbarVisible(false)}
               />

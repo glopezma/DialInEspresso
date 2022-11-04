@@ -1,23 +1,14 @@
-import Icon from "@expo/vector-icons/MaterialCommunityIcons";
-import { ListItem } from "@react-native-material/core";
 import React from "react";
-import {
-  FlatList,
-  GestureResponderEvent,
-  StyleSheet,
-  View,
-} from "react-native";
-import { Constants, navigationNames } from "../../enums";
-import { setSelectedCoffee } from "../../redux/coffeeStore/coffee.store";
+import { FlatList, StyleSheet, View } from "react-native";
 import { selectCoffeeList } from "../../redux/coffeeStore/coffee.selector";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { useAppSelector } from "../../redux/hooks";
+import { CoffeeListItem } from "./CoffeeListItem";
 
 interface HomeScreenProps {
   navigation: any;
 }
 
 export const HomeScreen = ({ navigation }: HomeScreenProps) => {
-  const dispatch = useAppDispatch();
   const coffeeList = useAppSelector(selectCoffeeList);
 
   return (
@@ -25,34 +16,9 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
       <FlatList
         alwaysBounceVertical={false}
         data={coffeeList}
-        renderItem={(data) => {
-          const { name, flavorNotes, region, dials } = data.item;
-          const favoriteDial = dials?.find((dial) => dial.favorite) || null;
-          return (
-            <ListItem
-              title={name}
-              secondaryText={`${region} - ${flavorNotes?.join(
-                ", "
-              )}\r\ngrams:\t${
-                favoriteDial ? favoriteDial.grams : Constants.NA
-              }\t\t\tgrind:\t${
-                favoriteDial ? favoriteDial.grind : Constants.NA
-              }`}
-              onPress={(_: GestureResponderEvent) => {
-                const { id: coffeeId } = data.item;
-                dispatch(setSelectedCoffee(coffeeId));
-                navigation.navigate(navigationNames.ShotsList);
-              }}
-              onLongPress={(_: GestureResponderEvent) => {
-                const { id: coffeeId } = data.item;
-                navigation.navigate(navigationNames.CreateCoffee, {
-                  coffeeId,
-                });
-              }}
-              trailing={(props) => <Icon name="chevron-right" {...props} />}
-            />
-          );
-        }}
+        renderItem={(data) => (
+          <CoffeeListItem coffeeItem={data.item} navigation={navigation} />
+        )}
       />
     </View>
   );
