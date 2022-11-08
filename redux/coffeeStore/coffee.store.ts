@@ -9,6 +9,7 @@ export interface Dial {
   yield?: number;
   temperature?: number;
   favorite?: boolean;
+  notes?: string;
 }
 
 export interface Coffee {
@@ -231,8 +232,20 @@ export const coffeeSlice = createSlice({
       if (state.selectedCoffee) {
         state.selectedCoffee.dials = [
           action.payload,
-          ...(state.selectedCoffee.dials ? state.selectedCoffee.dials : []),
+          ...(state.selectedCoffee.dials
+            ? state.selectedCoffee.dials.map((dial) => {
+                return {
+                  ...dial,
+                  favorite: action.payload.favorite ? false : dial.favorite,
+                };
+              })
+            : []),
         ];
+        state.coffeeList = state.coffeeList.map((coffee) => {
+          return coffee.id === state.selectedCoffee?.id
+            ? state.selectedCoffee
+            : coffee;
+        });
       }
     },
     setFavoriteDial: (
