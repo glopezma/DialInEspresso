@@ -1,7 +1,8 @@
 import React from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { selectCoffeeList } from "../../redux/coffeeStore/coffee.selector";
-import { useAppSelector } from "../../redux/hooks";
+import { setCoffeeId } from "../../redux/headerButtonsStore/headerButtons.store";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { CoffeeListItem } from "./CoffeeListItem";
 
 interface HomeScreenProps {
@@ -9,7 +10,12 @@ interface HomeScreenProps {
 }
 
 export const HomeScreen = ({ navigation }: HomeScreenProps) => {
+  const dispatch = useAppDispatch();
   const coffeeList = useAppSelector(selectCoffeeList);
+
+  const updateHomeHeader = (id: string | number[]) => {
+    dispatch(setCoffeeId(id));
+  };
 
   return (
     <View style={styles.container}>
@@ -17,7 +23,11 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
         alwaysBounceVertical={false}
         data={coffeeList}
         renderItem={(data) => (
-          <CoffeeListItem coffeeItem={data.item} navigation={navigation} />
+          <CoffeeListItem
+            coffeeItem={data.item}
+            navigation={navigation}
+            onLongPress={updateHomeHeader}
+          />
         )}
       />
     </View>

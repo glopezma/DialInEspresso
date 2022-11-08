@@ -7,16 +7,19 @@ import {
   Coffee,
   setSelectedCoffee,
 } from "../../../redux/coffeeStore/coffee.store";
+import { setCoffeeId } from "../../../redux/headerButtonsStore/headerButtons.store";
 import { useAppDispatch } from "../../../redux/hooks";
 
 interface CoffeeListItemProps {
   coffeeItem: Coffee;
   navigation: any;
+  onLongPress?: (id: string | number[]) => void;
 }
 
 export const CoffeeListItem = ({
   coffeeItem,
   navigation,
+  onLongPress,
 }: CoffeeListItemProps) => {
   const dispatch = useAppDispatch();
   const { id, name, flavorNotes, region, dials } = coffeeItem;
@@ -35,13 +38,10 @@ export const CoffeeListItem = ({
       }\t\t\tgrind:\t${favoriteDial ? favoriteDial.grind : Constants.NA}`}
       onPress={(_: GestureResponderEvent) => {
         dispatch(setSelectedCoffee(id));
+        dispatch(setCoffeeId(""));
         navigation.navigate(navigationNames.ShotsList);
       }}
-      onLongPress={(_: GestureResponderEvent) => {
-        navigation.navigate(navigationNames.CreateCoffee, {
-          coffeeId: id,
-        });
-      }}
+      onLongPress={() => onLongPress?.(id)}
       trailing={(props) => <Icon name="chevron-right" {...props} />}
     />
   );

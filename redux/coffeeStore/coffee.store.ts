@@ -214,10 +214,12 @@ export const coffeeSlice = createSlice({
       );
       state.coffeeList[index] = action.payload;
     },
-    removeCoffee: (state, action: PayloadAction<string>) => {
+    removeCoffee: (state, action: PayloadAction<string | number[]>) => {
+      console.log({ removeCoffee: action.payload });
       state.coffeeList = state.coffeeList.filter(
         (coffee) => coffee.id !== action.payload
       );
+      console.log({ state });
     },
     setSelectedCoffee: (state, action: PayloadAction<string | number[]>) => {
       const index = state.coffeeList.findIndex(

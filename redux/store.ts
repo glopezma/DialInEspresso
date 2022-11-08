@@ -1,4 +1,5 @@
 import coffeeReducer from "./coffeeStore/coffee.store";
+import headerButtonsReducer from "./headerButtonsStore/headerButtons.store";
 import { configureStore } from "@reduxjs/toolkit";
 
 export const createStore = (initialState: any = {}) =>
@@ -6,6 +7,7 @@ export const createStore = (initialState: any = {}) =>
     preloadedState: { ...initialState },
     reducer: {
       coffeeReducer,
+      headerButtonsReducer,
     },
   });
 

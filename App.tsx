@@ -3,9 +3,19 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { Button, GestureResponderEvent } from "react-native";
 import { Provider } from "react-redux";
+import {
+  CreateCoffeeButton,
+  EditCoffeeButtons,
+} from "./components/CoffeeButtons";
 import { navigationNames } from "./enums";
 import { selectSelectedCoffee } from "./redux/coffeeStore/coffee.selector";
-import { useAppSelector } from "./redux/hooks";
+import { removeCoffee } from "./redux/coffeeStore/coffee.store";
+import {
+  selectCoffeeId,
+  selectShowActionHeader,
+} from "./redux/headerButtonsStore/headerButtons.selectors";
+import { setCoffeeId } from "./redux/headerButtonsStore/headerButtons.store";
+import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import { store } from "./redux/store";
 import { CreateCoffeeScreen } from "./screens/CreateCoffeeScreen";
 import { CreateDialScreen } from "./screens/CreateDialScreen";
@@ -16,7 +26,11 @@ import { globalStyles } from "./styles";
 const Stack = createNativeStackNavigator();
 
 const Root = () => {
+  const dispatch = useAppDispatch();
   const selectedCoffee = useAppSelector(selectSelectedCoffee);
+  const showActionButtons = useAppSelector(selectShowActionHeader);
+  const coffeeId = useAppSelector(selectCoffeeId);
+
   const { backgroundColor: primaryBGColor } = globalStyles.primary.normal;
 
   return (
@@ -36,15 +50,23 @@ const Root = () => {
           component={HomeScreen}
           options={({ navigation }) => ({
             title: "My Coffees",
-            headerRight: () => (
-              <Button
-                title="Create Coffee"
-                color="#fff"
-                onPress={(_: GestureResponderEvent) => {
-                  navigation.navigate(navigationNames.CreateCoffee);
-                }}
-              />
-            ),
+            headerRight: () =>
+              showActionButtons ? (
+                <EditCoffeeButtons
+                  deleteAction={() => {
+                    dispatch(removeCoffee(coffeeId));
+                    dispatch(setCoffeeId(""));
+                  }}
+                  editAction={() => {
+                    navigation.navigate("CreateCoffee", {
+                      coffeeId,
+                    });
+                    dispatch(setCoffeeId(""));
+                  }}
+                />
+              ) : (
+                <CreateCoffeeButton navigation={navigation} />
+              ),
           })}
         />
         <Stack.Screen
@@ -73,6 +95,7 @@ const Root = () => {
                 title="Coffee List"
                 color="#fff"
                 onPress={(_: GestureResponderEvent) => {
+                  dispatch(setCoffeeId(""));
                   navigation.navigate(navigationNames.Home);
                 }}
               />

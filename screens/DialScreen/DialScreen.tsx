@@ -1,6 +1,6 @@
 import { AntDesign } from "@expo/vector-icons";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
-import { Button, IconButton, ListItem } from "@react-native-material/core";
+import { IconButton, ListItem } from "@react-native-material/core";
 import React from "react";
 import {
   FlatList,
