@@ -7,15 +7,17 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from "react-native";
 import uuid from "react-native-uuid";
 import * as yup from "yup";
 import { navigationNames } from "../../enums";
-import { selectSelectedCoffee } from "../../redux/coffeeStore/coffee.selector";
-import { addDial, setFavoriteDial } from "../../redux/coffeeStore/coffee.store";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import {
+  addDial,
+  Dial,
+  updateDial,
+} from "../../redux/coffeeStore/coffee.store";
+import { useAppDispatch } from "../../redux/hooks";
 import { globalStyles } from "../../styles";
 
 interface CreateCoffeeProps {
@@ -25,7 +27,10 @@ interface CreateCoffeeProps {
 
 export const CreateDialScreen = ({ navigation, route }: CreateCoffeeProps) => {
   const dispatch = useAppDispatch();
-  const selectedCoffee = useAppSelector(selectSelectedCoffee);
+
+  const dial: Dial | null = route?.params?.dial
+    ? { ...route.params.dial }
+    : null;
 
   let validationSchema = yup.object().shape({
     grams: yup.number().required().min(1).label("Grams"),
@@ -39,37 +44,32 @@ export const CreateDialScreen = ({ navigation, route }: CreateCoffeeProps) => {
 
   const formik = useFormik({
     initialValues: {
-      grams: 0,
-      grindSize: 0,
-      time: 0,
-      yield: 0,
-      temperature: 0,
-      favorite: false,
-      notes: "",
+      grams: dial?.grams || 0,
+      grindSize: dial?.grind || 0,
+      time: dial?.time || 0,
+      yield: dial?.yield || 0,
+      temperature: dial?.temperature || 0,
+      favorite: dial?.favorite || false,
+      notes: dial?.notes || "",
     },
     validationSchema,
     onSubmit: (values) => {
-      console.log(values);
       const id = uuid.v4();
-      dispatch(
-        addDial({
-          id: id,
-          grams: values.grams,
-          grind: values.grindSize,
-          time: values.time,
-          yield: values.yield,
-          temperature: values.temperature,
-          favorite: values.favorite,
-          notes: values.notes,
-        })
-      );
-
-      // if (values.favorite) {
-      //   dispatch(
-      //     setFavoriteDial({ coffeeId: selectedCoffee?.id || "", dialId: id })
-      //   );
-      // }
-
+      dial
+        ? dispatch(
+            updateDial({
+              ...values,
+              id: dial.id,
+              grind: values.grindSize,
+            })
+          )
+        : dispatch(
+            addDial({
+              ...values,
+              id,
+              grind: values.grindSize,
+            })
+          );
       navigation.navigate(navigationNames.ShotsList);
     },
   });
@@ -80,7 +80,6 @@ export const CreateDialScreen = ({ navigation, route }: CreateCoffeeProps) => {
         keyboardShouldPersistTaps="handled"
         style={{ paddingTop: 15, paddingHorizontal: 16 }}
       >
-        {route.params && <Text>{JSON.stringify(route.params.dial)}</Text>}
         <View style={styles.fieldGroup}>
           <TextInput
             label="Grams"
@@ -191,23 +190,22 @@ export const CreateDialScreen = ({ navigation, route }: CreateCoffeeProps) => {
         </View>
       </ScrollView>
       <Button
-        title={"Create"}
+        title={dial ? "Update" : "Create"}
         uppercase={false}
         style={{
           backgroundColor:
-            formik.isValid && formik.dirty
+            formik.isValid && (dial || formik.dirty)
               ? globalStyles.secondary.dark.backgroundColor
               : "lightgrey",
           padding: 10,
           margin: 16,
         }}
         onPress={(_: GestureResponderEvent) => {
-          console.log("push enter");
           if (formik.isValid) {
             formik.handleSubmit();
           }
         }}
-        disabled={!formik.isValid || !formik.dirty}
+        disabled={!formik.isValid || (!dial && !formik.dirty)}
       />
     </SafeAreaView>
   );

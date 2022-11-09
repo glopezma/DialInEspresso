@@ -22,18 +22,6 @@ export const EditCoffeeButtons = ({
       <IconButton
         icon={(props) => (
           <Icon
-            name="delete"
-            {...props}
-            color={globalStyles.primary.normal.textColor}
-          />
-        )}
-        onPress={() => {
-          deleteAction?.();
-        }}
-      />
-      <IconButton
-        icon={(props) => (
-          <Icon
             name="pencil"
             {...props}
             color={globalStyles.primary.normal.textColor}
@@ -41,6 +29,18 @@ export const EditCoffeeButtons = ({
         )}
         onPress={() => {
           editAction?.();
+        }}
+      />
+      <IconButton
+        icon={(props) => (
+          <Icon
+            name="delete"
+            {...props}
+            color={globalStyles.primary.normal.textColor}
+          />
+        )}
+        onPress={() => {
+          deleteAction?.();
         }}
       />
     </View>

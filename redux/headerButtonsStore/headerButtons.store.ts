@@ -22,9 +22,6 @@ export const headerButtonsSlice = createSlice({
         state.update = true;
         state.coffeeId = action.payload;
       }
-      console.log({
-        ...state,
-      });
     },
   },
 });

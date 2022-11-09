@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import uuid from "react-native-uuid";
 
 export interface Dial {
   id: string | number[];
@@ -28,178 +27,7 @@ export interface CoffeeState {
 }
 
 const initialState: CoffeeState = {
-  coffeeList: [
-    {
-      id: uuid.v4(),
-      name: "Gabe's favorite coffee",
-      price: 15.99,
-      region: "Yirgacheffe, Ethiopia",
-      flavorNotes: ["Citrus", "Floral", "Chocolate"],
-      dials: [
-        {
-          id: uuid.v4(),
-          grams: 18,
-          time: 30,
-          grind: 15,
-          yield: 30,
-          temperature: 200,
-          favorite: true,
-        },
-        {
-          id: uuid.v4(),
-          grams: 18,
-          time: 30,
-          grind: 11,
-          yield: 30,
-          temperature: 200,
-        },
-      ],
-    },
-    {
-      id: uuid.v4(),
-      name: "Guatemala Antigua",
-      price: 15.99,
-      flavorNotes: ["Citrus", "Floral", "Chocolate"],
-    },
-    {
-      id: uuid.v4(),
-      name: "Kenya AA",
-      price: 15.99,
-      region: "Kenya",
-    },
-    {
-      id: uuid.v4(),
-      name: "Ethiopia Yirgacheffe",
-      price: 15.99,
-      region: "Yirgacheffe, Ethiopia",
-      flavorNotes: ["Citrus", "Floral", "Chocolate"],
-      dials: [],
-    },
-    {
-      id: uuid.v4(),
-      name: "Guatemala Antigua",
-      price: 15.99,
-      region: "Antigua, Guatemala",
-      flavorNotes: ["Citrus", "Floral", "Chocolate"],
-    },
-    {
-      id: uuid.v4(),
-      name: "Kenya AA",
-      price: 15.99,
-      region: "Kenya",
-      flavorNotes: ["Citrus", "Floral", "Chocolate"],
-    },
-    {
-      id: uuid.v4(),
-      name: "Ethiopia Yirgacheffe",
-      price: 15.99,
-      region: "Yirgacheffe, Ethiopia",
-      flavorNotes: ["Citrus", "Floral", "Chocolate"],
-      dials: [],
-    },
-    {
-      id: uuid.v4(),
-      name: "Guatemala Antigua",
-      price: 15.99,
-      region: "Antigua, Guatemala",
-      flavorNotes: ["Citrus", "Floral", "Chocolate"],
-    },
-    {
-      id: uuid.v4(),
-      name: "Kenya AA",
-      price: 15.99,
-      region: "Kenya",
-      flavorNotes: ["Citrus", "Floral", "Chocolate"],
-    },
-    {
-      id: uuid.v4(),
-      name: "Ethiopia Yirgacheffe",
-      price: 15.99,
-      region: "Yirgacheffe, Ethiopia",
-      flavorNotes: ["Citrus", "Floral", "Chocolate"],
-      dials: [],
-    },
-    {
-      id: uuid.v4(),
-      name: "Guatemala Antigua",
-      price: 15.99,
-      region: "Antigua, Guatemala",
-      flavorNotes: ["Citrus", "Floral", "Chocolate"],
-    },
-    {
-      id: uuid.v4(),
-      name: "Kenya AA",
-      price: 15.99,
-      region: "Kenya",
-      flavorNotes: ["Citrus", "Floral", "Chocolate"],
-    },
-    {
-      id: uuid.v4(),
-      name: "Ethiopia Yirgacheffe",
-      price: 15.99,
-      region: "Yirgacheffe, Ethiopia",
-      flavorNotes: ["Citrus", "Floral", "Chocolate"],
-      dials: [],
-    },
-    {
-      id: uuid.v4(),
-      name: "Guatemala Antigua",
-      price: 15.99,
-      region: "Antigua, Guatemala",
-      flavorNotes: ["Citrus", "Floral", "Chocolate"],
-    },
-    {
-      id: uuid.v4(),
-      name: "Kenya AA",
-      price: 15.99,
-      region: "Kenya",
-      flavorNotes: ["Citrus", "Floral", "Chocolate"],
-    },
-    {
-      id: uuid.v4(),
-      name: "Ethiopia Yirgacheffe",
-      price: 15.99,
-      region: "Yirgacheffe, Ethiopia",
-      flavorNotes: ["Citrus", "Floral", "Chocolate"],
-      dials: [],
-    },
-    {
-      id: uuid.v4(),
-      name: "Guatemala Antigua",
-      price: 15.99,
-      region: "Antigua, Guatemala",
-      flavorNotes: ["Citrus", "Floral", "Chocolate"],
-    },
-    {
-      id: uuid.v4(),
-      name: "Kenya AA",
-      price: 15.99,
-      region: "Kenya",
-      flavorNotes: ["Citrus", "Floral", "Chocolate"],
-    },
-    {
-      id: uuid.v4(),
-      name: "Ethiopia Yirgacheffe",
-      price: 15.99,
-      region: "Yirgacheffe, Ethiopia",
-      flavorNotes: ["Citrus", "Floral", "Chocolate"],
-      dials: [],
-    },
-    {
-      id: uuid.v4(),
-      name: "Guatemala Antigua",
-      price: 15.99,
-      region: "Antigua, Guatemala",
-      flavorNotes: ["Citrus", "Floral", "Chocolate"],
-    },
-    {
-      id: uuid.v4(),
-      name: "Kenya AA",
-      price: 15.99,
-      region: "Kenya",
-      flavorNotes: ["Citrus", "Floral", "Chocolate"],
-    },
-  ],
+  coffeeList: [],
 };
 
 export const coffeeSlice = createSlice({
@@ -216,11 +44,9 @@ export const coffeeSlice = createSlice({
       state.coffeeList[index] = action.payload;
     },
     removeCoffee: (state, action: PayloadAction<string | number[]>) => {
-      console.log({ removeCoffee: action.payload });
       state.coffeeList = state.coffeeList.filter(
         (coffee) => coffee.id !== action.payload
       );
-      console.log({ state });
     },
     setSelectedCoffee: (state, action: PayloadAction<string | number[]>) => {
       const index = state.coffeeList.findIndex(
@@ -248,6 +74,42 @@ export const coffeeSlice = createSlice({
         });
       }
     },
+    updateDial: (state, action: PayloadAction<Dial>) => {
+      if (state.selectedCoffee) {
+        if (action.payload.favorite) {
+          state.selectedCoffee.dials = state.selectedCoffee.dials?.map(
+            (dial) => {
+              return dial.id === action.payload.id
+                ? action.payload
+                : { ...dial, favorite: false };
+            }
+          );
+        } else {
+          state.selectedCoffee.dials = state.selectedCoffee.dials?.map(
+            (dial) => {
+              return dial.id === action.payload.id ? action.payload : dial;
+            }
+          );
+        }
+        state.coffeeList = state.coffeeList.map((coffee) => {
+          return coffee.id === state.selectedCoffee?.id
+            ? state.selectedCoffee
+            : coffee;
+        });
+      }
+    },
+    removeDial: (state, action: PayloadAction<string | number[]>) => {
+      if (state.selectedCoffee) {
+        state.selectedCoffee.dials = state.selectedCoffee.dials?.filter(
+          (dial) => dial.id !== action.payload
+        );
+        state.coffeeList = state.coffeeList.map((coffee) => {
+          return coffee.id === state.selectedCoffee?.id
+            ? state.selectedCoffee
+            : coffee;
+        });
+      }
+    },
     setFavoriteDial: (
       state,
       action: PayloadAction<{
@@ -267,7 +129,6 @@ export const coffeeSlice = createSlice({
         }));
         state.coffeeList[coffeeIndex].dials = tempCoffeeList;
         state.selectedCoffee = state.coffeeList[coffeeIndex];
-        console.log("set favorite dial", state.coffeeList[coffeeIndex].dials);
       }
     },
   },
@@ -279,6 +140,7 @@ export const {
   removeCoffee,
   setSelectedCoffee,
   addDial,
+  updateDial,
   setFavoriteDial,
 } = coffeeSlice.actions;
 export default coffeeSlice.reducer;

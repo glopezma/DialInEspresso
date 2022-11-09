@@ -10,19 +10,9 @@ const persistCoffeeConfig = {
   storage: AsyncStorage,
 };
 
-const persistHeaderButtonsConfig = {
-  key: "headerButtons",
-  storage: AsyncStorage,
-};
-
 const persistedCoffeeReducer = persistReducer(
   persistCoffeeConfig,
   coffeeReducer
-);
-
-const persistedHeaderButtonsReducer = persistReducer(
-  persistHeaderButtonsConfig,
-  headerButtonsReducer
 );
 
 export const createStore = (initialState: any = {}) =>
@@ -30,7 +20,7 @@ export const createStore = (initialState: any = {}) =>
     preloadedState: { ...initialState },
     reducer: {
       coffeeReducer: persistedCoffeeReducer,
-      headerButtonsReducer: persistedHeaderButtonsReducer,
+      headerButtonsReducer,
     },
     devTools: process.env.NODE_ENV !== "production",
     middleware: [thunk],

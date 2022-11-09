@@ -34,7 +34,6 @@ export const DialScreen = ({ navigation }: DialScreenProps) => {
               title={"Entry 1, stars: 5"}
               secondaryText={`grams:\t${grams}\t\t\tgrind:\t${grind}`}
               onPress={(event: GestureResponderEvent) => {
-                console.log("edit", data.item);
                 navigation.navigate(navigationNames.CreateDial, {
                   dial: data.item,
                 });
