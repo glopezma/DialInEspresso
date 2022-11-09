@@ -15,6 +15,7 @@ import { navigationNames } from "../../enums";
 import {
   addDial,
   Dial,
+  removeDial,
   updateDial,
 } from "../../redux/coffeeStore/coffee.store";
 import { useAppDispatch } from "../../redux/hooks";
@@ -189,6 +190,21 @@ export const CreateDialScreen = ({ navigation, route }: CreateCoffeeProps) => {
           />
         </View>
       </ScrollView>
+      {dial && (
+        <Button
+          title="Delete"
+          uppercase={false}
+          style={{
+            backgroundColor: "red",
+            padding: 10,
+            margin: 16,
+          }}
+          onPress={(_: GestureResponderEvent) => {
+            dispatch(removeDial(dial.id));
+            navigation.navigate(navigationNames.ShotsList);
+          }}
+        />
+      )}
       <Button
         title={dial ? "Update" : "Create"}
         uppercase={false}

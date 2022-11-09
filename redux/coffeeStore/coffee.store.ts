@@ -141,6 +141,7 @@ export const {
   setSelectedCoffee,
   addDial,
   updateDial,
+  removeDial,
   setFavoriteDial,
 } = coffeeSlice.actions;
 export default coffeeSlice.reducer;
