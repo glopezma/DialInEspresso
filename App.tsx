@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { Button, GestureResponderEvent } from "react-native";
 import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 import {
   CreateCoffeeButton,
   EditCoffeeButtons,
@@ -16,7 +17,7 @@ import {
 } from "./redux/headerButtonsStore/headerButtons.selectors";
 import { setCoffeeId } from "./redux/headerButtonsStore/headerButtons.store";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
-import { store } from "./redux/store";
+import { persistor, store } from "./redux/store";
 import { CreateCoffeeScreen } from "./screens/CreateCoffeeScreen";
 import { CreateDialScreen } from "./screens/CreateDialScreen";
 import { DialScreen } from "./screens/DialScreen";
@@ -126,7 +127,9 @@ const Root = () => {
 const App = () => {
   return (
     <Provider store={store}>
-      <Root />
+      <PersistGate loading={null} persistor={persistor}>
+        <Root />
+      </PersistGate>
     </Provider>
   );
 };
