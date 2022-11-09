@@ -7,8 +7,9 @@ import {
   Coffee,
   setSelectedCoffee,
 } from "../../../redux/coffeeStore/coffee.store";
+import { selectCoffeeId } from "../../../redux/headerButtonsStore/headerButtons.selectors";
 import { setCoffeeId } from "../../../redux/headerButtonsStore/headerButtons.store";
-import { useAppDispatch } from "../../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 
 interface CoffeeListItemProps {
   coffeeItem: Coffee;
@@ -22,6 +23,7 @@ export const CoffeeListItem = ({
   onLongPress,
 }: CoffeeListItemProps) => {
   const dispatch = useAppDispatch();
+  const selectedCoffeeId = useAppSelector(selectCoffeeId);
   const { id, name, flavorNotes, region, dials } = coffeeItem;
   const favoriteDial = dials?.find((dial) => dial.favorite) || null;
   const flavorNotesString = flavorNotes?.join(", ");
@@ -41,6 +43,7 @@ export const CoffeeListItem = ({
         dispatch(setCoffeeId(""));
         navigation.navigate(navigationNames.ShotsList);
       }}
+      leading={selectedCoffeeId === id ? <Icon name="select" /> : undefined}
       onLongPress={() => onLongPress?.(id)}
       trailing={(props) => <Icon name="chevron-right" {...props} />}
     />
