@@ -1,7 +1,8 @@
 {
   "expo": {
     "name": "DialInEspresso",
-    "slug": "DialInEspresso",
+    "slug": "dialinespresso",
+    "owner": "glopezma",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -19,16 +20,23 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "glopezma-dialinEspresso"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.glopezma.dialinespresso"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7ed86e96-07fc-4fa8-a1b2-702d37ad09bb"
+      }
     }
   }
 }
