@@ -107,7 +107,7 @@ const Root = () => {
           name={navigationNames.CreateDial}
           component={CreateDialScreen}
           options={({ navigation }) => ({
-            title: "Create Dial",
+            title: "Shot Notes",
             headerLeft: () => (
               <Button
                 title="Cancel"
